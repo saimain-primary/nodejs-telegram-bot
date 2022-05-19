@@ -1,5 +1,10 @@
 {
   "dependencies": {
-    "node-telegram-bot-api": "^0.57.0"
+    "dotenv": "^16.0.1",
+    "mongoose": "^6.3.3",
+    "node-telegram-bot-api": "^0.57.0",
+    "stripe": "^9.1.0",
+    "crypto": "^1.0.1",
+    "faker": "^4.1.0"
   }
 }
