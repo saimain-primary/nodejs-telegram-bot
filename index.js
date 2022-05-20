@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { DB_URI, MY_ID } = process.env;
+const { DB_URI, CLIENT_ID, MY_ID } = process.env;
 const { TelegramToken, AdminId, StripeSecretKey } = require("./config");
 const stripe = require("stripe")(StripeSecretKey);
 const crypto = require("crypto");
@@ -15,6 +15,13 @@ const token = TelegramToken;
 
 const checkAdmin = (chatId) => {
   if (chatId == AdminId || chatId == MY_ID) {
+    return true;
+  }
+  return false;
+};
+
+const checkClient = (chatId) => {
+  if (chatId == AdminId || chatId == CLIENT_ID || chatId == MY_ID) {
     return true;
   }
   return false;
@@ -132,7 +139,7 @@ bot.onText(/\/ct (.+)/, (msg, match) => {
 bot.onText(/\/rd (.+)/, async (msg, match) => {
   const chatId = msg.chat.id;
   const token = match[1];
-  if (checkAdmin(chatId)) {
+  if (checkClient(chatId)) {
     const findToken = await TokenModel.findOne({ token: token });
     if (findToken) {
       const updateLimit = findToken.data?.limit - 1;
