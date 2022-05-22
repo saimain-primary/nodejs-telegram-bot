@@ -3,7 +3,7 @@ const AdminId = "846655442";
 const StripeSecretKey =
   "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";
 const cardHolderId = "ich_1L29t9DwRgMLu02uF7bvXwll";
-const spendingLimit = 0.01;
+const spendingLimit = 0.3;
 
 module.exports = {
   TelegramToken,
