@@ -6,6 +6,7 @@ const {
   AdminId,
   StripeSecretKey,
   cardHolderId,
+  spendingLimit,
 } = require("./config");
 const stripe = require("stripe")(StripeSecretKey);
 const crypto = require("crypto");
@@ -38,6 +39,12 @@ const createCard = async (cardholder) => {
     currency: "gbp",
     type: "virtual",
     status: "active",
+    spending_controls: {
+      spending_limits: {
+        amount: spendingLimit,
+        interval: "all_time",
+      },
+    },
   });
 
   return card;
