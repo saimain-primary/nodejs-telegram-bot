@@ -52,6 +52,7 @@ const createCard = async (cardholder) => {
     cardholder,
     currency: "gbp",
     type: "virtual",
+    status: "active",
   });
 
   console.log(card);
