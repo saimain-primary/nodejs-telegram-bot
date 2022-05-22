@@ -107,27 +107,23 @@ bot.onText(/\/gt (.+)/, (msg, match) => {
 bot.onText(/\/ct (.+)/, (msg, match) => {
   const chatId = msg.chat.id;
   const token = match[1];
-  if (checkAdmin(chatId)) {
-    TokenModel.findOne({
-      token: token,
+  TokenModel.findOne({
+    token: token,
+  })
+    .then((res) => {
+      console.log(res);
+      const opts = {
+        parse_mode: "HTML",
+      };
+      bot.sendMessage(
+        chatId,
+        `✅ Token Infos\n\nToken:\n\n<code>${res.data.body}</code>\n\nRemaining Count: ${res.data.limit}`,
+        opts
+      );
     })
-      .then((res) => {
-        console.log(res);
-        const opts = {
-          parse_mode: "HTML",
-        };
-        bot.sendMessage(
-          chatId,
-          `✅ Token Infos\n\nToken:\n\n<code>${res.data.body}</code>\n\nRemaining Count: ${res.data.limit}`,
-          opts
-        );
-      })
-      .catch((err) => {
-        bot.sendMessage(chatId, "🚨 Cannot check token, something was wrong");
-      });
-  } else {
-    bot.sendMessage(chatId, "🚨 You have no permission to check token");
-  }
+    .catch((err) => {
+      bot.sendMessage(chatId, "🚨 Cannot check token, something was wrong");
+    });
 });
 
 bot.onText(/\/rd (.+)/, async (msg, match) => {
