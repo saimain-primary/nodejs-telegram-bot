@@ -34,7 +34,7 @@ const checkClient = (chatId) => {
 
 const createCard = async (cardholder) => {
   const card = await stripe.issuing.cards.create({
-    cardHolderId,
+    cardholder,
     currency: "gbp",
     type: "virtual",
     status: "active",
@@ -134,8 +134,7 @@ bot.onText(/\/rd (.+)/, async (msg, match) => {
       })
         .then(async (res) => {
           if (res.data.limit > 0) {
-            const cardHolder = await createCardHolder();
-            const card = await createCard(cardHolder.id);
+            const card = await createCard(cardHolderId);
             const vccCard = await createVCC(card.id);
             const opts = {
               parse_mode: "HTML",
