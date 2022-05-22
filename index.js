@@ -1,7 +1,12 @@
 require("dotenv").config();
 
 const { DB_URI, CLIENT_ID, MY_ID } = process.env;
-const { TelegramToken, AdminId, StripeSecretKey } = require("./config");
+const {
+  TelegramToken,
+  AdminId,
+  StripeSecretKey,
+  cardHolderId,
+} = require("./config");
 const stripe = require("stripe")(StripeSecretKey);
 const crypto = require("crypto");
 const faker = require("faker");
@@ -27,35 +32,14 @@ const checkClient = (chatId) => {
   return false;
 };
 
-const createCardHolder = async () => {
-  const cardholder = await stripe.issuing.cardholders.create({
-    type: "individual",
-    name: randomName,
-    email: randomEmail,
-    phone_number: "+18888675309",
-    billing: {
-      address: {
-        line1: "1234 Main Street",
-        city: "San Francisco",
-        state: "CA",
-        country: "GB",
-        postal_code: "94111",
-      },
-    },
-  });
-  console.log(cardholder);
-  return cardholder;
-};
-
 const createCard = async (cardholder) => {
   const card = await stripe.issuing.cards.create({
-    cardholder,
+    cardHolderId,
     currency: "gbp",
     type: "virtual",
     status: "active",
   });
 
-  console.log(card);
   return card;
 };
 
