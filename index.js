@@ -40,10 +40,12 @@ const createCard = async (cardholder) => {
     type: "virtual",
     status: "active",
     spending_controls: {
-      spending_limits: {
-        amount: spendingLimit,
-        interval: "all_time",
-      },
+      spending_limits: [
+        {
+          amount: spendingLimit,
+          interval: "all_time",
+        },
+      ],
     },
   });
 
